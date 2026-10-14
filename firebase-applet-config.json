@@ -1,10 +1,10 @@
 {
-  "projectId": "remixed-project-id",
-  "appId": "remixed-app-id",
-  "apiKey": "remixed-api-key",
-  "authDomain": "remixed-auth-domain",
-  "firestoreDatabaseId": "remixed-firestore-database-id",
-  "storageBucket": "remixed-storage-bucket",
-  "messagingSenderId": "remixed-messaging-sender-id",
-  "measurementId": "remixed-measurement-id"
+  "projectId": "smart-agri-ai-2604",
+  "appId": "1:85422182982:web:19bfdbca5b86917d4df047",
+  "apiKey": "AIzaSyACi1VcUvWOcCaJex63KjMnz1818YF_ppI",
+  "authDomain": "smart-agri-ai-2604.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "smart-agri-ai-2604.firebasestorage.app",
+  "messagingSenderId": "85422182982",
+  "projectNumber": "85422182982"
 }

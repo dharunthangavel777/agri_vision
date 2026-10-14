@@ -1,0 +1,14 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "auth": {
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "AI Smart Agriculture System",
+        "supportEmail": "rjsanjay26@gmail.com"
+      }
+    }
+  }
+}

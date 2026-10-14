@@ -17,11 +17,19 @@
     "jsx": "react-jsx",
     "paths": {
       "@/*": [
+        "./frontend/src/*",
         "./*"
       ]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "types": ["vite/client"]
-  }
+  },
+  "include": [
+    "frontend/**/*",
+    "backend/**/*",
+    "api/**/*",
+    "server.ts",
+    "vite.config.ts"
+  ]
 }

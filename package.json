@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --import tsx server.ts",
+    "dev:server": "node --import tsx backend/src/server.ts",
+    "dev:client": "vite",
     "start": "NODE_ENV=production node --import tsx server.ts",
     "build": "vite build",
     "preview": "vite preview",

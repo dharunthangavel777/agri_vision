@@ -193,5 +193,50 @@
     "instructions": "Apply as a basal dose during sowing or transplanting.",
     "reason": "Your soil nutrients are balanced. A general NPK fertilizer is recommended for healthy growth.",
     "timestamp": "2026-04-22T08:35:50.618Z"
+  },
+  {
+    "id": "e3d5277b-5c58-4d6b-afa6-8392c9d930ab",
+    "userId": "7l6SBPBJosYg66UbBNSok2t58Le2",
+    "cropType": "Tomato",
+    "soilType": "Clay",
+    "n": 0,
+    "p": 0,
+    "k": 0,
+    "location": "tamilnadu namakkal ",
+    "fertilizerName": "Urea (46% Nitrogen)",
+    "quantity": "50kg per acre",
+    "instructions": "Apply as a basal dose during sowing or transplanting.",
+    "reason": "Low Nitrogen detected. Urea is recommended to promote vegetative growth and leaf development.",
+    "timestamp": "2026-10-11T16:58:18.934Z"
+  },
+  {
+    "id": "cf47ab97-1787-4ff9-8ed6-ca4c68511b19",
+    "userId": "7l6SBPBJosYg66UbBNSok2t58Le2",
+    "cropType": "Tomato",
+    "soilType": "Clay",
+    "n": 0,
+    "p": 0,
+    "k": 0,
+    "location": "tamilnadu namakkal ",
+    "fertilizerName": "Urea (46% Nitrogen)",
+    "quantity": "50kg per acre",
+    "instructions": "Apply as a basal dose during sowing or transplanting.",
+    "reason": "Low Nitrogen detected. Urea is recommended to promote vegetative growth and leaf development.",
+    "timestamp": "2026-10-11T16:58:23.373Z"
+  },
+  {
+    "id": "d1651ed2-c837-47ed-94e7-5211586d0980",
+    "userId": "7l6SBPBJosYg66UbBNSok2t58Le2",
+    "cropType": "Tomato",
+    "soilType": "Clay",
+    "n": 0,
+    "p": 0,
+    "k": 0,
+    "location": "tamilnadu namakkal ",
+    "fertilizerName": "Urea (46% Nitrogen)",
+    "quantity": "50kg per acre",
+    "instructions": "Apply as a basal dose during sowing or transplanting.",
+    "reason": "Low Nitrogen detected. Urea is recommended to promote vegetative growth and leaf development.",
+    "timestamp": "2026-10-11T16:58:49.079Z"
   }
 ]

@@ -31,5 +31,26 @@
     "name": "Deekshitha",
     "location": "Bangalore",
     "farmType": "Vegetable"
+  },
+  "tv465461@gmail.com": {
+    "id": "a4635169-5413-4d44-bdd7-87b4d8102f03",
+    "identifier": "tv465461@gmail.com",
+    "password": "$2b$10$9InPzWEFDtEsMdDR71f6y.FHkwWC2N..5Zohyst8VTNtErMQkEZri",
+    "type": "email",
+    "role": "farmer",
+    "createdAt": "2026-10-10T06:09:09.798Z",
+    "name": "ee",
+    "location": "ss",
+    "farmType": "Vegetable"
+  },
+  "dharuncod@gmail.com": {
+    "id": "7l6SBPBJosYg66UbBNSok2t58Le2",
+    "identifier": "dharuncod@gmail.com",
+    "name": "ee",
+    "location": "",
+    "farmType": "Vegetable",
+    "role": "farmer",
+    "type": "email",
+    "createdAt": "2026-10-11T07:01:48.824Z"
   }
 }

@@ -31,13 +31,58 @@ An integrated precision agriculture platform designed to assist farmers through 
 - Gemini API  
 - Tailwind CSS  
 
-## System Architecture
+## System Architecture & Feature-First Directory Structure
 
-The platform follows a three-layer architecture:
+The platform is structured with a modern **Feature-First Architecture** separating frontend and backend domains:
 
-1. Presentation Layer  
-2. Application / Inference Layer  
-3. Data and Knowledge Layer  
+```text
+AI-Smart-Agriculture-System/
+├── backend/
+│   └── src/
+│       ├── core/                      # Core configuration, persistence, middlewares
+│       │   ├── config.ts              # Env constants & fallback datasets
+│       │   ├── db.ts                  # JSON file persistence helpers
+│       │   └── middleware/            # Auth, rate-limiting, and upload middlewares
+│       ├── features/                  # Feature-first backend domain modules
+│       │   ├── auth/                  # Authentication & user profile endpoints
+│       │   ├── fertilizer/            # Soil nutrient & fertilizer recommendations
+│       │   ├── marketplace/           # Product CRUD & inventory endpoints
+│       │   ├── history/               # Analysis activity persistence
+│       │   ├── weather/               # OpenWeather & agro-meteorology endpoints
+│       │   ├── market/                # Mandi price proxy with caching & fallback
+│       │   └── chat/                  # AI assistant & diagnosis routing
+│       ├── app.ts                     # Express app instance & route assembly
+│       └── server.ts                  # HTTP listener & Vite dev integration
+│
+├── frontend/
+│   ├── index.html                     # Frontend HTML entry
+│   └── src/
+│       ├── core/                      # Core providers & configuration (i18n, context, firebase)
+│       ├── shared/                    # Reusable cross-feature UI components, hooks & utils
+│       │   ├── components/            # Header, Navigation, Logo, LanguageSelector, ResultCard
+│       │   ├── hooks/                 # useLocation
+│       │   └── stores/                # uiStore
+│       ├── features/                  # Feature-first frontend domain modules
+│       │   ├── home/                  # Dashboard hero carousel & live command center
+│       │   ├── crop-advisor/          # Soil analysis & crop recommendation
+│       │   ├── disease-detection/     # Plant leaf disease scanning & remedies
+│       │   ├── fertilizer/            # Fertilizer recommendation form & dosage guidance
+│       │   ├── marketplace/           # Farmer marketplace & direct product trading
+│       │   ├── weather/               # 5-day weather forecast & agricultural insights
+│       │   ├── market-prices/         # Mandi price trends & historical analytics
+│       │   ├── education/             # Agricultural learning center & article reader
+│       │   ├── auth/                  # Login, profile setup & security settings
+│       │   ├── history/               # Activity audit modal & record browsing
+│       │   └── chat/                  # RAG-powered chatbot & AI agriculture assistance
+│       ├── App.tsx                    # Clean master orchestrator
+│       ├── main.tsx                   # React client entry point
+│       └── index.css                  # Tailored theme & utility tokens
+│
+├── server.ts                          # Root entry delegating to backend
+├── vite.config.ts                     # Fullstack Vite + Tailwind configuration
+├── tsconfig.json                      # Unified TypeScript paths configuration
+└── package.json                       # Scripts for unified run and build
+```
 
 ## Research Motivation
 

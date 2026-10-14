@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgriVision – Monitoring</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="index.css">
+<script src="https://unpkg.com/lucide@0.383.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+<div class="shell">
+<aside class="rail" aria-label="Sections">
+  <button class="ri" aria-label="Apps"><i data-lucide="layout-grid"></i></button>
+  <div class="mid">
+    <button class="ri" aria-label="Home"><i data-lucide="house"></i></button>
+    <button class="ri on" aria-label="Monitoring"><i data-lucide="map"></i></button>
+    <button class="ri" aria-label="Crop health"><i data-lucide="leaf"></i></button>
+    <button class="ri" aria-label="Analytics"><i data-lucide="bar-chart-3"></i></button>
+    <button class="ri" aria-label="Reports"><i data-lucide="clipboard-list"></i></button>
+    <button class="ri" aria-label="Climate"><i data-lucide="snowflake"></i></button>
+  </div>
+  <button class="ri" id="theme" aria-label="Toggle theme"><i data-lucide="moon"></i></button>
+  <button class="ri" id="menu" aria-label="Menu"><i data-lucide="menu"></i></button>
+</aside>
+<main class="main">
+  <header class="top">
+    <div class="brand"><svg width="44" height="40" viewBox="0 0 44 40"><path d="M2 6c14-2 22 4 22 20 0 4-1 7-2 9C10 34 2 24 2 6z" fill="#278b50"/><path d="M42 4C28 4 20 12 20 28c0 3 0 5 1 8 14 0 22-10 21-32z" fill="#33975c"/></svg>AgriVision</div>
+    <nav class="tabs"><button>Overview</button><button class="on">Monitoring</button><button>Crop Health</button><button>Reports</button></nav>
+    <div class="ctl"><button class="circ" id="settings" aria-label="Settings"><i data-lucide="settings"></i></button><button class="circ" id="search" aria-label="Search"><i data-lucide="search"></i></button><span class="circ av" aria-label="User Profile"><img src="assets/profile-avatar.jpg" alt="Profile" onerror="this.remove()"><i data-lucide="user"></i></span></div>
+  </header>
+  <section class="bar">
+    <svg width="30" height="30" viewBox="0 0 30 30"><g fill="#278b50"><rect x="2" y="2" width="12" height="12" rx="6"/><rect x="16" y="2" width="12" height="12" rx="6"/><rect x="2" y="16" width="12" height="12" rx="6"/><rect x="16" y="16" width="12" height="12" rx="4"/></g></svg>
+    <b class="farm">Riverbend Farm</b>
+    <div class="dd" id="ddFarm"><button class="ddb"><span>Napa Valley</span><i data-lucide="chevron-down"></i></button><ul><li>Napa Valley</li><li>Sonoma Hills</li><li>Salinas Fields</li></ul></div>
+    <span class="sep"></span>
+    <div class="dd" id="ddZone"><button class="ddb"><span>All Zones</span><i data-lucide="chevron-down"></i></button><ul><li>All Zones</li><li data-z="A">Zone A</li><li data-z="B">Zone B</li><li data-z="C">Zone C</li></ul></div>
+    <button class="btn log" id="log"><i data-lucide="pencil"></i>Log Activity</button>
+  </section>
+  <div class="grid">
+    <div class="col l">
+      <button class="card zone" data-z="A"><b>Zone A <i data-lucide="badge-check" class="gc"></i></b><span class="st"><u style="--c:var(--g)"></u>Healthy</span><small>Spinach - 95%</small><em class="pill g"><i data-lucide="shield"></i>95%</em></button>
+      <button class="card zone" data-z="B"><b>Zone B <i data-lucide="map-pin" class="yc"></i></b><span class="st"><u style="--c:var(--y)"></u>Needs Attention</span><small>Lettuce - Low Light</small><em class="pill y"><i data-lucide="sun-dim"></i>27%</em></button>
+      <button class="card zone" data-z="C"><b>Zone C <i data-lucide="circle-dot" class="oc"></i></b><span class="st"><u style="--c:var(--o)"></u>Action Required</span><small>Spinach - Low Moisture</small><em class="pill o"><i data-lucide="triangle-alert"></i>21%</em></button>
+      <div class="card ai"><h2>AI Insight</h2><p>“Irrigation today can restore moisture balance within 48h.”</p><button class="btn big" id="rec">View Recommendation <i data-lucide="arrow-right"></i></button></div>
+      <div class="card fp"><div class="fph"><span>Total Farm Panels <i data-lucide="info"></i></span><i data-lucide="arrow-up-right"></i></div><p><b>1,750</b> <small>Units</small></p>
+        <div class="bars"><div><span>Maintenance (50)</span><i class="mb"></i></div><div><span>Offline (200)</span><i class="ob"></i></div><div><span>Operational (1500)</span><i class="pb"></i></div></div></div>
+    </div>
+    <div class="col c">
+      <div class="map" id="map">
+        <img class="monitoring-image" src="assets/farm-monitoring.jpg" alt="Aerial view of crop zones" onerror="this.remove()">
+        <button class="mk" data-z="A" style="left:42%;top:19%"><span>Zone A</span><i class="dot" style="--c:#33975c"></i></button>
+        <button class="mk" data-z="B" style="left:40%;top:40%"><span>Zone B</span><i class="dot" style="--c:var(--y)"></i></button>
+        <button class="mk" data-z="C" style="left:84%;top:29%"><span>Zone C</span><i class="dot" style="--c:var(--o)"></i></button>
+        <div class="popup" role="status"><div class="ph"><i data-lucide="map-pin" id="pIcon"></i><b id="pName">Zone C</b><span id="pVal">21%</span></div><small id="pStat">Low Moisture</small><label>Moisture <i>Level</i></label><div class="mbar"><i id="pBar"></i></div><button class="btn" id="irr">Start Irrigation</button><button class="btn wh" id="det">View Details</button></div>
+      </div>
+      <div class="row">
+        <div class="card oh"><h3>Overall health</h3><span class="badge">Good</span><p>Plants are healthy and growing steadily.</p>
+          <svg viewBox="0 0 180 100" class="g92"><path d="M10 95A80 80 0 0 1 170 95" fill="none" stroke="#dcdcdc" stroke-width="3" pathLength="100"/><path d="M10 95A80 80 0 0 1 170 95" fill="none" stroke="#278b50" stroke-width="3" stroke-dasharray="92 100" pathLength="100"/><circle cx="168" cy="75" r="6" fill="#eee" stroke="#aaa" stroke-width="2"/></svg><div class="gv"><b>92<small>%</small></b><span>Health Score</span></div></div>
+        <div class="card mc"><h3>Manual Control</h3>
+          <div class="sl"><i data-lucide="sun"></i><div><div class="sh"><span>Light Intensity</span><output id="o1">75%</output></div><input type="range" id="r1" value="75" aria-label="Light intensity"><div class="sf"><span>Dim</span><span>Bran</span></div></div></div>
+          <div class="sl"><i data-lucide="fan"></i><div><div class="sh"><span>Ventilation Speed</span><output id="o2">35%</output></div><input type="range" id="r2" value="35" aria-label="Ventilation speed"><div class="sf"><span>Slow</span><span>Fast</span></div></div></div></div>
+      </div>
+    </div>
+    <div class="col r">
+      <div class="card sum"><h2>Summary</h2><div class="gw"><div class="gauge"></div><div class="gt"><b>90%</b><span>Health Index</span></div></div>
+        <div class="mr"><i data-lucide="sprout"></i><span>Nutrient Level</span><b>85%</b></div>
+        <div class="mr"><i data-lucide="droplet"></i><span>Humidity</span><b>67%</b></div>
+        <div class="mr"><i data-lucide="thermometer"></i><span>Temperature</span><b>27°C</b></div></div>
+      <div class="card ws"><h3><i data-lucide="droplets"></i> Water Status</h3>
+        <div class="in big2"><span><i data-lucide="waves"></i> Soil Moisture Avg</span><b class="gr">63%</b></div>
+        <div class="two"><div class="in"><span><i data-lucide="droplet"></i> Today's Use</span><b class="gr">4.2 <small>L</small></b></div><div class="in"><span><i data-lucide="refresh-cw"></i> Auto- Irrigation</span><b class="gr" id="auto">ON</b></div></div></div>
+      <div class="card yp"><i data-lucide="tractor" class="ic"></i><span>Yield Prediction</span><b>95 <small>g/plant</small></b></div>
+    </div>
+  </div>
+</main>
+</div>
+<dialog id="dlg"><button class="x" aria-label="Close"><i data-lucide="x"></i></button><h3 id="dt"></h3><div id="db"></div></dialog>
+<div id="toast" role="status"></div>
+<script src="index.js"></script>
+</body>
+</html>

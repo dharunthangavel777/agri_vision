@@ -1,0 +1,582 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import url('https://fonts.cdnfonts.com/css/google-sans');
+
+:root {
+  --bg: #eaeaea;
+  --shell: #e5e5e5;
+  --card: #f1f1f1;
+  --in: #e7e7e7;
+  --g: #278b50;
+  --g2: #33975c;
+  --lg: #dceae0;
+  --t: #111111;
+  --m: #696969;
+  --y: #f2b51b;
+  --o: #e86b12;
+  --bd: rgba(0, 0, 0, 0.08);
+  --font-sans: "Google Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Google Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body, body.dark {
+  --bg: #141714;
+  --shell: #1f221f;
+  --card: #282c28;
+  --in: #323732;
+  --t: #f2f4f2;
+  --m: #9ea39e;
+  --lg: #233d2b;
+  --bd: rgba(255, 255, 255, 0.08);
+  font-family: "Google Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+body.light {
+  --bg: #eaeaea;
+  --shell: #e5e5e5;
+  --card: #f1f1f1;
+  --in: #e7e7e7;
+  --t: #111111;
+  --m: #696969;
+  --lg: #dceae0;
+  --bd: rgba(0, 0, 0, 0.08);
+  font-family: "Google Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+*, *::before, *::after, html, body, input, button, select, textarea {
+  box-sizing: border-box;
+  font-family: "Google Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* Compatibility utility mappings for smooth theme inheritance */
+.bg-dark-card {
+  background-color: var(--card) !important;
+}
+
+.bg-dark-input {
+  background-color: var(--in) !important;
+}
+
+.bg-dark-bg {
+  background-color: var(--bg) !important;
+}
+
+.border-dark-border {
+  border-color: var(--bd) !important;
+}
+
+.text-brand-green {
+  color: var(--g) !important;
+}
+
+.bg-brand-green {
+  background-color: var(--g) !important;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--shell);
+  color: var(--t);
+  min-height: 100vh;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  overflow: hidden;
+}
+
+/* Real Edge-to-Edge Full-Screen Dashboard */
+.agri-shell {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  background: var(--shell);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* Left Navigation Rail Container (Static anchor preserving body content layout) */
+.agri-rail-wrapper {
+  width: 72px;
+  height: 100vh;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 50;
+}
+
+/* Left Navigation Rail - Pure Overlay on Hover without flexing body content */
+.agri-rail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 72px;
+  height: 100vh;
+  border-right: 1px solid var(--bd);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 18px 12px 16px;
+  background: var(--shell);
+  z-index: 50;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease, background-color 0.25s ease;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.agri-rail:hover {
+  width: 232px;
+  background-color: var(--card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 10px 0 35px rgba(0, 0, 0, 0.4);
+}
+
+.agri-rail-mid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 24px;
+}
+
+.agri-ri {
+  width: 100%;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 13px;
+  color: var(--m);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  overflow: hidden;
+  text-align: left;
+}
+
+.agri-ri:hover {
+  color: var(--t);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.agri-ri.on {
+  background: var(--card);
+  color: var(--g);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.agri-ri-label {
+  font-size: 13.5px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0.04s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0.04s;
+  pointer-events: none;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+}
+
+.agri-rail:hover .agri-ri-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Main Content Wrapper - Full Screen Scroll */
+.agri-main {
+  flex: 1;
+  height: 100vh;
+  min-width: 0;
+  padding: 0 24px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--shell);
+}
+
+/* Top Header */
+.agri-top {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.agri-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--t);
+}
+
+.agri-tabs {
+  display: flex;
+  gap: 6px;
+  margin-left: 28px;
+  flex: 1;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.agri-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.agri-tabs button {
+  height: 42px;
+  padding: 0 22px;
+  border-radius: 30px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  color: var(--m);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.agri-tabs button:hover {
+  color: var(--t);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.agri-tabs button.on {
+  color: #fff;
+  background: var(--g);
+  border-color: var(--g);
+  box-shadow: 0 4px 14px rgba(39, 139, 80, 0.25);
+}
+
+.agri-ctl {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.agri-circ {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  color: var(--m);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.agri-circ:hover {
+  color: var(--t);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.agri-circ.av {
+  background: var(--lg);
+  color: var(--g);
+  font-weight: 700;
+}
+
+/* Secondary Context Bar */
+.agri-bar {
+  height: 52px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 16px;
+  gap: 12px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.agri-farm {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--t);
+  margin-right: 6px;
+}
+
+.agri-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--bd);
+  margin: 0 4px;
+}
+
+.agri-dd {
+  position: relative;
+}
+
+.agri-ddb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--m);
+  font-size: 14px;
+  font-weight: 500;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.agri-ddb:hover {
+  color: var(--t);
+}
+
+.agri-btn-action {
+  margin-left: auto;
+  height: 38px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--g);
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 4px 12px rgba(39, 139, 80, 0.2);
+}
+
+.agri-btn-action:hover {
+  background: #1f7a44;
+  transform: translateY(-1px);
+}
+
+/* Card Surface Utilities */
+.agri-card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  position: relative;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.agri-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.agri-in {
+  background: var(--in);
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* AI Matrix Pattern Card */
+.agri-ai-card {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.2px);
+  background-size: 8px 8px;
+  background-position: right top;
+}
+
+/* Status Pills */
+.agri-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.agri-pill.g {
+  background: var(--lg);
+  color: var(--g);
+}
+
+.agri-pill.y {
+  background: rgba(242, 181, 27, 0.15);
+  color: var(--y);
+}
+
+.agri-pill.o {
+  background: rgba(232, 107, 18, 0.15);
+  color: var(--o);
+}
+
+/* Precision Gauges */
+.agri-gauge-wrap {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  margin: 32px auto 24px;
+}
+
+.agri-gauge-arc {
+  width: 200px;
+  height: 100px;
+  border-radius: 200px 200px 0 0;
+  background: conic-gradient(
+    from 270deg at 50% 100%,
+    #f58a35 0deg,
+    #f6a623 40deg,
+    #f4d02a 85deg,
+    #a8c632 125deg,
+    #2f9a5c 180deg
+  );
+  -webkit-mask: radial-gradient(circle at 50% 100%, transparent 64px, #000 65px);
+  mask: radial-gradient(circle at 50% 100%, transparent 64px, #000 65px);
+}
+
+/* Tactile Range Sliders */
+input[type="range"].agri-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--g) var(--v, 50%), var(--in) 0);
+  outline: none;
+  margin: 8px 0 4px;
+  cursor: pointer;
+}
+
+input[type="range"].agri-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--g);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease;
+}
+
+input[type="range"].agri-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Glassmorphism Floating Popup */
+.agri-glass-popup {
+  background: rgba(24, 30, 24, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  border-radius: 16px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Responsive Shell rules */
+@media (max-width: 1080px) {
+  .agri-shell {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    min-height: 100vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .agri-rail {
+    display: none;
+  }
+  .agri-main {
+    padding: 0 12px 16px;
+  }
+  .agri-tabs {
+    margin-left: 12px;
+  }
+  .agri-bar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 14px;
+  }
+}
+
+/* ==========================================================================
+   AGRIVISION SKELETON SHIMMER SYSTEM
+   Ultra-smooth, emerald-tinted skeleton loaders for modern agricultural UI
+   ========================================================================== */
+
+@keyframes agri-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.agri-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.agri-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(74, 222, 128, 0.09) 50%,
+    rgba(255, 255, 255, 0.04) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: agri-shimmer 2s infinite ease-in-out;
+  pointer-events: none;
+}
+
+.agri-skeleton-pill {
+  height: 22px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.agri-skeleton-bar {
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+}
