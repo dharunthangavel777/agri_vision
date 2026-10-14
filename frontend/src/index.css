@@ -1,6 +1,6 @@
+@import url('https://fonts.cdnfonts.com/css/google-sans');
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-@import url('https://fonts.cdnfonts.com/css/google-sans');
 
 :root {
   --bg: #eaeaea;
