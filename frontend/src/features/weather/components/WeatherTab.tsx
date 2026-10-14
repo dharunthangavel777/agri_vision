@@ -17,33 +17,39 @@ import {
 import { useAppContext } from '../../../core/context/AppContext.tsx';
 import { useLocation } from '../../../shared/hooks/useLocation.ts';
 import { WeatherSkeleton } from '../../../shared/components/skeletons/WeatherSkeleton.tsx';
+import { 
+  fetchAgroWeather, 
+  getRegionalFallbackWeather, 
+  cleanCityName 
+} from '../services/weatherService.ts';
 
 export const WeatherTab: React.FC = () => {
   const { appData, updateModuleData } = useAppContext();
   const { location, locationName, loading: locationLoading, refresh: refreshLocation } = useLocation();
 
-  const cities = ['Bangalore', 'Mumbai', 'Delhi', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ludhiana', 'Nagpur'];
+  const currentCityClean = location?.city ? cleanCityName(location.city) : '';
+  const defaultCities = ['Bangalore', 'Mumbai', 'Delhi', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ludhiana', 'Nagpur'];
+  const cities = currentCityClean && !defaultCities.map(c => c.toLowerCase()).includes(currentCityClean.toLowerCase())
+    ? [currentCityClean, ...defaultCities]
+    : defaultCities;
 
   const fetchWeather = async (city: string, lat?: number, lon?: number) => {
     updateModuleData('weatherLoading', true);
     updateModuleData('weatherError', null);
-    updateModuleData('weatherCity', city);
+    const cleanCity = cleanCityName(city);
+    updateModuleData('weatherCity', cleanCity);
     try {
-      let url = `/api/weather/${city}`;
-      if (lat && lon) {
-        url += `?lat=${lat}&lon=${lon}`;
-      }
-      const res = await fetch(url);
-      const data = await res.json();
-      
-      if (data.status === 'ok') {
+      const data = await fetchAgroWeather(cleanCity, lat, lon);
+      if (data && data.status === 'ok') {
         updateModuleData('weather', data);
       } else {
-        updateModuleData('weatherError', data.error || "Weather service temporarily offline");
+        const fallback = getRegionalFallbackWeather(cleanCity);
+        updateModuleData('weather', fallback);
       }
     } catch (err) {
       console.error("Failed to fetch weather:", err);
-      updateModuleData('weatherError', "Failed to connect to weather service.");
+      const fallback = getRegionalFallbackWeather(cleanCity);
+      updateModuleData('weather', fallback);
     } finally {
       updateModuleData('weatherLoading', false);
     }
@@ -53,7 +59,7 @@ export const WeatherTab: React.FC = () => {
     if (location?.city) {
       fetchWeather(location.city, location.lat, location.lon);
     } else if (!appData.weather && !appData.weatherLoading) {
-      fetchWeather(appData.weatherCity || 'Bangalore');
+      fetchWeather(appData.weatherCity || 'Salem');
     }
   }, [location?.city, location?.lat, location?.lon]);
 
@@ -89,11 +95,17 @@ export const WeatherTab: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => fetchWeather(appData.weatherCity || 'Bangalore')}
+              onClick={() => {
+                if (location?.city) {
+                  fetchWeather(location.city, location.lat, location.lon);
+                } else {
+                  fetchWeather(appData.weatherCity || 'Salem');
+                }
+              }}
               className="p-2.5 bg-white/10 hover:bg-white/15 text-stone-300 rounded-xl border border-white/10 transition-colors"
               title="Refresh Weather"
             >
-              <RefreshCw size={15} className={appData.weatherLoading ? "opacity-50 text-emerald-400" : "text-stone-300"} />
+              <RefreshCw size={15} className={appData.weatherLoading ? "animate-spin text-emerald-400" : "text-stone-300"} />
             </button>
           </div>
         </div>
@@ -101,20 +113,32 @@ export const WeatherTab: React.FC = () => {
         {/* Quick City Pills */}
         <div className="flex items-center gap-2 mt-4 pt-3 border-t border-[rgba(255,255,255,0.06)] overflow-x-auto pb-1">
           <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider shrink-0">City:</span>
-          {cities.map((city) => (
-            <button
-              key={city}
-              type="button"
-              onClick={() => fetchWeather(city)}
-              className={`px-3 py-1 rounded-xl text-xs font-medium transition-all shrink-0 ${
-                appData.weatherCity === city 
-                  ? 'bg-[#278b50] text-white shadow-md shadow-[#278b50]/20' 
-                  : 'bg-[#242b24] text-stone-400 hover:text-white hover:bg-[#2e372e]'
-              }`}
-            >
-              {city}
-            </button>
-          ))}
+          {cities.map((city) => {
+            const isSelected = (appData.weatherCity || '').toLowerCase() === city.toLowerCase();
+            const isFarmLocation = currentCityClean && city.toLowerCase() === currentCityClean.toLowerCase();
+            return (
+              <button
+                key={city}
+                type="button"
+                onClick={() => {
+                  if (isFarmLocation && location) {
+                    fetchWeather(city, location.lat, location.lon);
+                  } else {
+                    fetchWeather(city);
+                  }
+                }}
+                className={`px-3 py-1 rounded-xl text-xs font-medium transition-all shrink-0 flex items-center gap-1.5 ${
+                  isSelected 
+                    ? 'bg-[#278b50] text-white shadow-md shadow-[#278b50]/20' 
+                    : 'bg-[#242b24] text-stone-400 hover:text-white hover:bg-[#2e372e]'
+                }`}
+              >
+                {isFarmLocation && <MapPin size={12} className={isSelected ? "text-white" : "text-emerald-400"} />}
+                <span>{city}</span>
+                {isFarmLocation && <span className="text-[10px] opacity-75 font-normal">(Farm)</span>}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -227,8 +251,14 @@ export const WeatherTab: React.FC = () => {
           <p className="text-stone-300 text-sm mb-4">{appData.weatherError || "Could not load weather data"}</p>
           <button
             type="button"
-            onClick={() => fetchWeather('Bangalore')}
-            className="px-5 py-2.5 bg-[#278b50] hover:bg-[#1f7a44] text-white text-xs font-bold rounded-xl transition-all"
+            onClick={() => {
+              if (location?.city) {
+                fetchWeather(location.city, location.lat, location.lon);
+              } else {
+                fetchWeather(appData.weatherCity || 'Salem');
+              }
+            }}
+            className="px-5 py-2.5 bg-[#278b50] hover:bg-[#1f7a44] text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-[#278b50]/20"
           >
             Retry Connection
           </button>

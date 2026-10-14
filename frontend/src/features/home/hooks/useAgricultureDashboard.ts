@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { fetchAgroWeather, getRegionalFallbackWeather } from '../../weather/services/weatherService.ts';
 
 export const useGreeting = () => {
   const [greetingKey, setGreetingKey] = useState('home.goodMorning');
@@ -99,64 +100,38 @@ export const useWeather = (defaultCity: string = 'Bangalore', initialLat?: numbe
   const controllerRef = useRef<AbortController | null>(null);
 
   const fetchWeather = async (lat?: number, lon?: number, city?: string) => {
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-    }
-
-    const controller = new AbortController();
-    controllerRef.current = controller;
-
     setLoading(true);
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
-
     try {
-      let url = '';
-      const apiKey = '19927003d654bcd63f64e32840eeba91';
-      
       const targetLat = lat ?? initialLat;
       const targetLon = lon ?? initialLon;
-
-      if (targetLat !== undefined && targetLon !== undefined) {
-        url = `https://api.openweathermap.org/data/2.5/weather?lat=${targetLat}&lon=${targetLon}&units=metric&appid=${apiKey}`;
-      } else {
-        url = `https://api.openweathermap.org/data/2.5/weather?q=${city || defaultCity}&units=metric&appid=${apiKey}`;
-      }
-
-      const res = await fetch(url, { signal: controller.signal });
-      clearTimeout(timeoutId);
-      
-      const data = await res.json();
-
-      if (data.cod !== 200) {
-        throw new Error(data.message || 'Failed to fetch weather');
-      }
+      const targetCity = city || defaultCity;
+      const data = await fetchAgroWeather(targetCity, targetLat, targetLon);
 
       setWeather({
-        temp: Math.round(data.main.temp),
-        humidity: data.main.humidity,
-        condition: data.weather[0].main,
-        location: data.name,
-        rain: data.rain?.['1h'] || 0,
-        pop: data.pop ? data.pop * 100 : 0
+        temp: data.temp,
+        humidity: data.humidity,
+        condition: data.condition,
+        location: data.city,
+        rain: data.forecast?.[0]?.rain || 0,
+        pop: 0
       });
       setError(null);
     } catch (err: any) {
-      if (err.name === 'AbortError') {
-        return;
-      }
-
       if (import.meta.env.DEV) {
         console.error("Weather fetch error:", err);
       }
-      setError("Could not load weather data");
-      
-      if (city !== defaultCity && !lat && !initialLat) {
-        fetchWeather(undefined, undefined, defaultCity);
-      }
+      const fallback = getRegionalFallbackWeather(city || defaultCity);
+      setWeather({
+        temp: fallback.temp,
+        humidity: fallback.humidity,
+        condition: fallback.condition,
+        location: fallback.city,
+        rain: 0,
+        pop: 0
+      });
+      setError(null);
     } finally {
-      if (controllerRef.current === controller) {
-        setLoading(false);
-      }
+      setLoading(false);
     }
   };
 

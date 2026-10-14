@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import { createServer as createViteServer } from 'vite';
 
 import { uploadDir } from './core/middleware/upload.ts';
 import authRoutes from './features/auth/auth.routes.ts';
@@ -50,6 +49,7 @@ export async function createApp() {
 
   // Vite development middleware or production static files
   if (!process.env.VERCEL && process.env.NODE_ENV !== 'production') {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
